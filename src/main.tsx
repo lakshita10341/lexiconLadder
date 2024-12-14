@@ -1,10 +1,10 @@
-// Learn more at developers.reddit.com/docs
+
 import { Devvit, useState } from '@devvit/public-api';
 
 Devvit.configure({
+  redis: true,
   redditAPI: true,
 });
-// Add a menu item to the subreddit menu for instantiating the new experience post
 
 
 Devvit.addMenuItem({
