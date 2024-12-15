@@ -1,5 +1,5 @@
 import { Devvit, useState, Context } from '@devvit/public-api';
-import {Service} from './backend/Service.js'
+import {Service} from '../backend/Service.js'
 Devvit.configure({
     redis: true,
     redditAPI: true,
@@ -12,6 +12,7 @@ type ScoreBoardEntry = {
   member: string;      
   score: number;  
 }
+
 const DailyLeaderBoard = (props: { onClose: () => void }, context: Context): JSX.Element => {
     const serviceInstance = new Service({
         redis: context.redis,

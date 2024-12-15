@@ -1,5 +1,5 @@
 import { Devvit, useState, Context } from '@devvit/public-api';
-import {Service} from './backend/Service.js'
+import {Service} from '../backend/Service.js'
 Devvit.configure({
     redis: true,
     redditAPI: true,
