@@ -13,6 +13,7 @@ Devvit.addMenuItem({
   location: 'subreddit',
   label: 'ADDscore',
   onPress: async (event,context) => {
+    const { reddit, ui } = context;
     const serviceInstance = new Service({
       redis: context.redis,
     });
@@ -26,19 +27,6 @@ Devvit.addMenuItem({
     } catch (error) {
       console.error('Error in GameStart:', error);
     }
-  },
-});
-
-
-
-Devvit.addMenuItem({
-  label: 'Add my post',
-  location: 'subreddit',
-  forUserType: 'moderator',
-  onPress: async (_event, context) => {
-    const { reddit, ui } = context;
-    ui.showToast("Submitting your post - upon completion you'll navigate there.");
-
     const subreddit = await reddit.getCurrentSubreddit();
     const post = await reddit.submitPost({
       title: 'My devvit post',
@@ -54,9 +42,34 @@ Devvit.addMenuItem({
   },
 });
 
+
+
+Devvit.addMenuItem({
+  label: 'Add  post',
+  location: 'subreddit',
+  forUserType: 'moderator',
+  onPress: async (_event, context) => {
+    const { reddit, ui } = context;
+    ui.showToast("Submitting your post - upon completion you'll navigate there.");
+
+    const subreddit = await reddit.getCurrentSubreddit();
+    const post = await reddit.submitPost({
+      title: 'My  post',
+      subredditName: subreddit.name,
+  
+      preview: (
+        <vstack height="100%" width="100%" alignment="middle center">
+          <text size="large">Loading ...</text>
+        </vstack>
+      ),
+    });
+    ui.navigateTo(post);
+  },
+});
+
 // Add a post type definition
 Devvit.addCustomPostType({
-  name: 'Experience Post',
+  name: 'Post',
   height: 'regular',
   render: (_context) => {
  
@@ -65,12 +78,12 @@ Devvit.addCustomPostType({
     const { scheduler } = _context;
  
     await scheduler.runJob({
-      name: 'reset-weekly-leaderboard',
-      cron: '0 12 * * 0', 
+      name: 'reset-weeklyLeaderboard',
+      cron: '0 12 * * 0', //reset on sunday
     });
     await scheduler.runJob({
       name: 'reset-daily-leaderboard',
-      cron: '0 12 * * *', 
+      cron: '0 12 * * *', //reset everyday
     });
   };
 
@@ -112,7 +125,7 @@ Devvit.addSchedulerJob({
     try {
       const redis = context.redis; 
       await redis.del('leaderboard:daily');
-      console.log('Weekly leaderboard reset successfully!');
+      console.log('Daily leaderboard reset successfully!');
     } catch (error) {
       console.error('Error resetting leaderboard:', error);
     }

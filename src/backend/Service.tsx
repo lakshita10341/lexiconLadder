@@ -71,7 +71,7 @@ export class Service {
     }
     async getDailyScores(limit: number): Promise<ScoreBoardEntry[]> {
         const dailyScores = await this.redis?.zRange('leaderboard:daily', 0, limit - 1) || [];
-
+      
         return dailyScores;
     }
     async getWeeklyScores(limit: number): Promise<ScoreBoardEntry[]> {
