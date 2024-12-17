@@ -2,8 +2,8 @@ import type { MenuItem } from '@devvit/public-api';
 
 import { LoadingState } from '../components/LoadingState.js';
 
-export const newGamePost: MenuItem = {
-  label: 'New Game post',
+export const newPinnedPost: MenuItem = {
+  label: 'New Pinned post',
   location: 'subreddit',
   forUserType: 'moderator',
   onPress: async (_event, context) => {
