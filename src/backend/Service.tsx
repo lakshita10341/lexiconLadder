@@ -14,6 +14,7 @@ export class Service {
 
     constructor(context: { redis: RedisClient }) {
         this.redis = context.redis;
+        
     }
 
     // async GameStart(username: string): Promise<{ Score: UserData }> {
@@ -77,4 +78,5 @@ export class Service {
         const weeklyScores = await this.redis?.zRange('leaderboard:weekly', 0, limit - 1,) || [];
         return weeklyScores;
     }
+
 }

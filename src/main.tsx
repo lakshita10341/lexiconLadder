@@ -61,7 +61,18 @@ Devvit.addCustomPostType({
   render: (_context) => {
  
    const [showLeaderboard, setShowLeaderboard] = useState(false);
-
+   const scheduleLeaderboardReset = async () => {
+    const { scheduler } = _context;
+ 
+    await scheduler.runJob({
+      name: 'reset-weekly-leaderboard',
+      cron: '0 12 * * 0', 
+    });
+    await scheduler.runJob({
+      name: 'reset-daily-leaderboard',
+      cron: '0 12 * * *', 
+    });
+  };
 
    if (showLeaderboard) {
      return <LeaderboardNavigation onClose={() => setShowLeaderboard(false)} />;
@@ -71,12 +82,44 @@ Devvit.addCustomPostType({
    return (
      <button
        appearance="secondary"
-       onPress={() => setShowLeaderboard(true)}
+       onPress={() => {setShowLeaderboard(true) ; scheduleLeaderboardReset()}}
      >
        Go to Leaderboard
      </button>
    );
   },
 });
+
+
+Devvit.addSchedulerJob({
+  name: 'reset-weekly-leaderboard',
+  onRun: async (_, context) => {
+    console.log('Resetting weekly leaderboard...');
+    try {
+      const redis = context.redis; 
+      await redis.del('leaderboard:weekly');
+      console.log('Weekly leaderboard reset successfully!');
+    } catch (error) {
+      console.error('Error resetting leaderboard:', error);
+    }
+  },
+});
+
+Devvit.addSchedulerJob({
+  name: 'reset-daily-leaderboard',
+  onRun: async (_, context) => {
+    console.log('Resetting daily leaderboard...');
+    try {
+      const redis = context.redis; 
+      await redis.del('leaderboard:daily');
+      console.log('Weekly leaderboard reset successfully!');
+    } catch (error) {
+      console.error('Error resetting leaderboard:', error);
+    }
+  },
+});
+
+
+
 
 export default Devvit;
