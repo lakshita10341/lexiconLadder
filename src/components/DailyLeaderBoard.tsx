@@ -62,7 +62,7 @@ const DailyLeaderBoard = (props: { onClose: () => void }, context: Context): JSX
  
       const { data, error, loading } = useAsync<{ leaderboard: ScoreBoardEntry[] }>(async () => {
         console.log("Fetching scores...");
-        const scores = await serviceInstance.getDailyScores(4);
+        const scores = await serviceInstance.getDailyScores(10);
         console.log("Fetched scores:", scores);
         return { leaderboard: scores };
       });

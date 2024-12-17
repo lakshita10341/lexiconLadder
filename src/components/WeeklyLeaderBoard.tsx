@@ -60,7 +60,7 @@ Devvit.configure({
    
         const { data, error, loading } = useAsync<{ leaderboard: ScoreBoardEntry[] }>(async () => {
           console.log("Fetching scores...");
-          const scores = await serviceInstance.getWeeklyScores(4);
+          const scores = await serviceInstance.getWeeklyScores(10);
           console.log("Fetched scores:", scores);
           return { leaderboard: scores };
         });

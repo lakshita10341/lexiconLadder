@@ -1,6 +1,6 @@
 
 
-import type { RedisClient } from "@devvit/public-api";
+import type { RedisClient, ZRangeOptions } from "@devvit/public-api";
 type UserData= {
     dailyScore : number,
     weeklyScore : number,
@@ -70,12 +70,14 @@ export class Service {
         return { Score: updatedScore };
     }
     async getDailyScores(limit: number): Promise<ScoreBoardEntry[]> {
-        const dailyScores = await this.redis?.zRange('leaderboard:daily', 0, limit - 1) || [];
+        const options: ZRangeOptions = { reverse: true, by: 'rank' };
+        const dailyScores = await this.redis?.zRange('leaderboard:daily', 0, limit - 1,options) || [];
       
         return dailyScores;
     }
     async getWeeklyScores(limit: number): Promise<ScoreBoardEntry[]> {
-        const weeklyScores = await this.redis?.zRange('leaderboard:weekly', 0, limit - 1,) || [];
+        const options: ZRangeOptions = { reverse: true, by: 'rank' };
+        const weeklyScores = await this.redis?.zRange('leaderboard:weekly', 0, limit - 1,options) || [];
         return weeklyScores;
     }
 
