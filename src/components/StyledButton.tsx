@@ -27,11 +27,11 @@ export const StyledButton = (props: Props): JSX.Element => {
                 width={width}
                 onPress={onPress}
                 backgroundColor={borderColor}
-                padding="medium"
+                padding="small"
             >
             <hstack
-                  height="75%"
-                  width="75%"
+                  height="100%"
+                  width="100%"
                   gap="small"
                   alignment="middle center"
                   backgroundColor={backgroundColor}

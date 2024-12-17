@@ -1,26 +1,30 @@
-import { Devvit } from "@devvit/public-api";
-import { StyledButton } from "../../components/StyledButton.js";
+import { Devvit, useState } from "@devvit/public-api";
+import { HeroButton } from "../../components/HeroButton.js";
+import { GuessWord } from "./GuessWord.js";
+import { LoadingState } from "../../components/LoadingState.js";
 
 export function GameStart(): JSX.Element {
-    return (
-        <vstack height="100%" width="100%" alignment="middle center">
-            <StyledButton 
-                width={200} 
-                height={50} 
-                label="+ Game" 
-                backgroundColor="black" 
-                borderColor="white" 
-                onPress={() => {}}
-            />
-            <spacer height={100} />
-            <StyledButton 
-                width={200}
-                height={50}
-                label="Leaderboard"
-                backgroundColor="black"
-                borderColor="white"
-                onPress={() => {}}
-            />
-        </vstack>
-    )
-}
+    const [ gamePage, setGamePage ] = useState<string>('start');
+    let currentPage = gamePage
+    switch (currentPage) {
+        case 'start':
+            return (
+                <vstack height="100%" width="100%" alignment="middle center">
+                    <HeroButton
+                        label="Play"
+                        onPress={() => {
+                            setGamePage('guessWord');
+                        }}
+                    />
+                </vstack>
+        )
+        case 'guessWord':
+            return (
+                <GuessWord setGamePage={setGamePage} />
+            )
+        default:
+            return (
+                <LoadingState />
+            )
+    }
+}   

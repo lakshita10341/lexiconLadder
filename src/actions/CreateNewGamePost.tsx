@@ -16,6 +16,7 @@ export const newPinnedPost: MenuItem = {
         subredditName: subreddit.name,
         preview: LoadingState(),
       });
+      await post.sticky(1);
       ui.navigateTo(post);
     } catch (error) {
       console.error('Error submitting post:', error);
