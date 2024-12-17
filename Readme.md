@@ -1,4 +1,4 @@
-# WordPath: A Word Association Game
+# LexiconLadder: A Word Association Game
 
 Welcome to **LexiconLadder**, an engaging word association game that challenges your vocabulary and strategy skills!
 
