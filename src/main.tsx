@@ -1,17 +1,22 @@
 import type { Context } from '@devvit/public-api';
 import { Devvit, useState } from '@devvit/public-api';
-import {Service} from "./backend/Service.js"
+import {Service} from "./service/Service.js"
 import {User} from '@devvit/public-api'
 import LeaderboardNavigation from './components/LeaderBoardNavigation.js';
+import { PixelText } from './components/PixelText.js';
+
 Devvit.configure({
   redis: true,
   redditAPI: true,
+  media: true
 });
 
-//to add score of user in leaderboard
+//Devvit.addMenuItem() this will play post type in subreddit
+//Devvit.addMenuItem()// this will be 
+
 Devvit.addMenuItem({
   location: 'subreddit',
-  label: 'ADDscore',
+  label: 'Add Score',
   onPress: async (event,context) => {
     const serviceInstance = new Service({
       redis: context.redis,
@@ -41,12 +46,12 @@ Devvit.addMenuItem({
 
     const subreddit = await reddit.getCurrentSubreddit();
     const post = await reddit.submitPost({
-      title: 'My devvit post',
+      title: '',
       subredditName: subreddit.name,
   
       preview: (
         <vstack height="100%" width="100%" alignment="middle center">
-          <text size="large">Loading ...</text>
+          <PixelText size={8} color='white'>Loading ...</PixelText>
         </vstack>
       ),
     });
