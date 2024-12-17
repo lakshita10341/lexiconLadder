@@ -1,15 +1,17 @@
 import { Devvit } from "@devvit/public-api"
+import { PixelText } from "./PixelText.js"
 
 interface Props {
     onPress?: () => void
-    children: JSX.Element
     width: number
     height: number
-    backgroundColor?: string
+    label?: string
+    backgroundColor: string
+    borderColor: string
 }
 
 export const StyledButton = (props: Props): JSX.Element => {
-    const { height, width, children, onPress, backgroundColor } = props;
+    const { height, width, onPress, label, backgroundColor, borderColor } = props;
 
     return  (  
         <zstack alignment="start top" onPress={onPress}>
@@ -20,7 +22,25 @@ export const StyledButton = (props: Props): JSX.Element => {
               <hstack height={height} width={width} backgroundColor={backgroundColor} />
             </hstack>
           </vstack>
-          {children}
+            <hstack
+                height={height}
+                width={width}
+                onPress={onPress}
+                backgroundColor={borderColor}
+                padding="medium"
+            >
+            <hstack
+                  height="75%"
+                  width="75%"
+                  gap="small"
+                  alignment="middle center"
+                  backgroundColor={backgroundColor}
+            >
+                  {/*leadingIcon ? <PixelSymbol scale={2} type={leadingIcon} color={style.color} /> : null */}
+                  {label ? <PixelText color={"white"}>{label}</PixelText> : null}
+                  {/*trailingIcon ? <PixelSymbol scale={2} type={trailingIcon} color={style.color} /> : null*/}
+            </hstack>
+            </hstack>
         </zstack>
     );
 }
