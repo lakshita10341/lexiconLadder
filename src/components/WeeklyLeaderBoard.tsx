@@ -10,7 +10,7 @@ Devvit.configure({
     score: number;  
    
   }
-  const Layout = (props: { children: JSX.Element; onClose: () => void }): JSX.Element => (
+  const Layout = (props: { children: JSX.Element; }): JSX.Element => (
     <vstack width="100%" height="100%">
       <spacer height="24px" />
       <hstack width="100%" alignment="middle">
@@ -51,7 +51,7 @@ Devvit.configure({
       <spacer height="20px" />
     </vstack>
   );
-  const WeeklyLeaderBoard = (props: { onClose: () => void }, context: Context): JSX.Element => {
+  const WeeklyLeaderBoard = ( { context }: { context: Context }): JSX.Element => {
       const serviceInstance = new Service({
           redis: context.redis,
         });
@@ -101,7 +101,7 @@ Devvit.configure({
         return (
           <vstack>
               <text size="large" weight="bold">Weekly Leaderboard</text>
-            <Layout onClose={props.onClose}>
+            <Layout >
               
         {leaderboardRows}
  

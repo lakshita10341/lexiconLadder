@@ -20,7 +20,7 @@ Devvit.addCustomPostType({
   render: Router
 });
 
-Devvit.addMenuItem(addScore);
+//Devvit.addMenuItem(addScore);
 
 Devvit.addMenuItem(newPinnedPost);
 
