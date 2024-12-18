@@ -3,7 +3,7 @@ import { Service } from "../service/Service.js";
 
 export const addScore: MenuItem = {
   location: 'subreddit',
-  label: 'Add Score',
+  label: 'LeaderBoard',
   onPress: async (event, context: Context) => {
     const serviceInstance = new Service({
       redis: context.redis,

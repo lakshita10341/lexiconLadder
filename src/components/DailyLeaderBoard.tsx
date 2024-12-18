@@ -12,7 +12,7 @@ type ScoreBoardEntry = {
   member: string;      
   score: number;  
 }
-const Layout = (props: { children: JSX.Element; onClose: () => void }): JSX.Element => (
+const Layout = (props: { children: JSX.Element;  }): JSX.Element => (
   <vstack width="100%" height="100%">
     <spacer height="24px" />
     <hstack width="100%" alignment="middle">
@@ -53,7 +53,7 @@ const Layout = (props: { children: JSX.Element; onClose: () => void }): JSX.Elem
     <spacer height="20px" />
   </vstack>
 );
-const DailyLeaderBoard = (props: { onClose: () => void }, context: Context): JSX.Element => {
+const DailyLeaderBoard = ( { context }: { context: Context }): JSX.Element => {
     const serviceInstance = new Service({
         redis: context.redis,
       });
@@ -103,7 +103,7 @@ const DailyLeaderBoard = (props: { onClose: () => void }, context: Context): JSX
       return (
         <vstack>
             <text size="large" weight="bold">Daily Leaderboard</text>
-          <Layout onClose={props.onClose}>
+          <Layout >
             
       {leaderboardRows}
       {/* Append the user to the bottom if they are out of view */}

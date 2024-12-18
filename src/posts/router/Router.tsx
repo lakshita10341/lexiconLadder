@@ -3,6 +3,7 @@ import { PixelText } from "../../components/PixelText.js";
 import { StyledButton } from "../../components/StyledButton.js";
 import { PinnedPost } from "../pinned_post/PinnedPost.js";
 import { GameStart } from "../game/GameStart.js";
+import LeaderboardNavigation from "../../components/LeaderBoardNavigation.js";
 
 export const Router: Devvit.CustomPostComponent = (context) => {
     const { useState, ui } = context;
@@ -12,10 +13,13 @@ export const Router: Devvit.CustomPostComponent = (context) => {
     }>(() => ({
         postType: 'pinnedPost'
     }));
+    const [showLeaderboard, setShowLeaderboard] = useState<boolean>(false);
 
+ 
+  
     const postTypes: Record<string, JSX.Element> = {
         pinnedPost: (<PinnedPost setPage={setPage} />),
-        leaderboard: (<zstack/>), 
+        leaderboard: (<LeaderboardNavigation context={context} />), 
         game: (<GameStart/>) // replace leaderboard here
     };
 

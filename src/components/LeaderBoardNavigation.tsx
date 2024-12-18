@@ -6,12 +6,12 @@ Devvit.configure({
     redditAPI: true,
   });
   
-const LeaderboardNavigation = (props: { onClose: () => void }, context: Context): JSX.Element => {
+const LeaderboardNavigation = ( { context }: { context: Context }): JSX.Element => {
     const [currentPage, setCurrentPage] = useState<string>('');
     if (currentPage=="daily"){
-        return (<DailyLeaderBoard {...props} />)
+        return (<DailyLeaderBoard context={context} />)
     }else if(currentPage=="weekly"){
-        return (<WeeklyLeaderBoard {...props} />)
+        return (<WeeklyLeaderBoard context={context} />)
     }
     return (
     
