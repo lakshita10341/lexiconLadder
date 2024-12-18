@@ -9,6 +9,11 @@ type ScoreBoardEntry = {
     member: string;
     score: number;
 }
+export type CurrentPostState = {
+	time : number,
+	word : string,
+	score : number,
+} 
 export class Service {
     readonly redis?: RedisClient;
     readonly reddit?: RedditAPIClient;
@@ -92,6 +97,15 @@ export class Service {
         const weeklyScores = await this.redis?.zRange('leaderboard:weekly', 0, limit - 1,options) || [];
         return weeklyScores;
     }
+     
+    async updateGlobalState( PostState : CurrentPostState): Promise<void> {
+	await this.redis?.set('currentPostState', JSON.stringify(PostState));
+    }
+
+     async getGlobalState(): Promise<CurrentPostState> {
+	const state = await this.redis?.get('currentPostState');
+	return JSON.parse(state || '{}');
+     }
 
     async getRelatedWords(word: string): Promise<any[]> {
 
@@ -125,4 +139,5 @@ export class Service {
         const randomIndex = Math.floor(Math.random() * wordsArray.length);
         return wordsArray[randomIndex];
     }
+    
 }

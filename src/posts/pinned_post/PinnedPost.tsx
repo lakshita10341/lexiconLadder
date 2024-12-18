@@ -1,6 +1,7 @@
-import { Context, Devvit } from "@devvit/public-api";
+import { Context, Devvit , useState , useInterval } from "@devvit/public-api";
 import { StyledButton } from "../../components/StyledButton.js";
 import { PageProps } from "../../types.js";
+import {Service,CurrentPostState} from "../../service/Service.js"
 
 export function PinnedPost({ setPage }: PageProps, context: Context): JSX.Element {
     const { postId } = context;
@@ -40,6 +41,44 @@ export function PinnedPost({ setPage }: PageProps, context: Context): JSX.Elemen
         })
         //context.ui.navigateTo(newPost);
     }
+    
+   const [ currentPostState , setCurrentPostState] = useState<CurrentPostState>({time:0,word:"noword",score:0});
+   const interval = useInterval(handleInterval , 1000);
+   const serviceInstance = new Service({
+	  redis: context.redis,
+    });
+    
+       function handleInterval() {
+
+	    setCurrentPostState(prevState => ({
+        ...prevState,
+        score: prevState.score - 10,
+        time: prevState.time + 1,
+    	}));
+
+		updateglobalstate();
+
+		if( currentPostState.time > 10){
+			interval.stop();
+			startTimer();
+		}
+
+   }
+  // starts timer , updates values of all the global variables every second
+    async function startTimer(){
+		const targetword = await serviceInstance.getRandomWord();
+	    setCurrentPostState(prevState => ({
+	        ...prevState,
+	        word: targetword,
+	        score: 1000,
+	        time: 1,
+	    }));
+		interval.start();
+	}
+
+   const updateglobalstate = () => {
+		serviceInstance.updateGlobalState(currentPostState);
+   }
 
     return (
         <vstack height="100%" width="100%" alignment="middle center">
