@@ -1,6 +1,6 @@
 import words from '../data/words.json'
 
-import type { RedditAPIClient, RedisClient, Scheduler } from "@devvit/public-api";
+import type { RedditAPIClient, RedisClient, Scheduler, ZRangeOptions } from "@devvit/public-api";
 type UserData = {
     dailyScore: number,
     weeklyScore: number,
@@ -23,6 +23,7 @@ export class Service {
         this.redis = context.redis;
         this.reddit = context.reddit;
         this.scheduler = context.scheduler;
+        
     }
 
     readonly API_LINK = "https://api.datamuse.com/words?rel_trg=";
@@ -81,12 +82,14 @@ export class Service {
         return { Score: updatedScore };
     }
     async getDailyScores(limit: number): Promise<ScoreBoardEntry[]> {
-        const dailyScores = await this.redis?.zRange('leaderboard:daily', 0, limit - 1) || [];
-
+        const options: ZRangeOptions = { reverse: true, by: 'rank' };
+        const dailyScores = await this.redis?.zRange('leaderboard:daily', 0, limit - 1,options) || [];
+      
         return dailyScores;
     }
     async getWeeklyScores(limit: number): Promise<ScoreBoardEntry[]> {
-        const weeklyScores = await this.redis?.zRange('leaderboard:weekly', 0, limit - 1,) || [];
+        const options: ZRangeOptions = { reverse: true, by: 'rank' };
+        const weeklyScores = await this.redis?.zRange('leaderboard:weekly', 0, limit - 1,options) || [];
         return weeklyScores;
     }
 
